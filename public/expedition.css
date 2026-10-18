@@ -1,0 +1,112 @@
+/* PEAK Expedition Edition: game-inspired original illustration, topo detail, field journal controls */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,750&display=swap');
+:root{--bg:#0d2124;--panel:#1e3333;--panel2:#27403e;--line:#415b54;--text:#f4ead5;--muted:#b6c6b9;--quiet:#829e92;--lime:#ecc789;--orange:#e8a878;--red:#f09e91;--blue:#a6cfce;--radius:18px;--shadow:0 22px 58px #07151365;color-scheme:dark}
+body{background:radial-gradient(ellipse at top,#294642 0,#122b2d 38%,#0b1d20 90%);color:var(--text)}
+body::before{content:"";position:fixed;inset:0;opacity:.14;pointer-events:none;background-image:repeating-radial-gradient(ellipse at 50% 38%,transparent 0 34px,#abbe9c 35px 36px,transparent 37px 56px);background-size:960px 650px;z-index:-1}
+.sidebar{background:linear-gradient(165deg,#263f3e,#142d31 60%,#102327);border-right:1px solid #71897950;box-shadow:10px 0 28px #06141525}
+.sidebar:before{content:'◈ FIELD JOURNAL  /  001';position:absolute;top:8px;left:25px;color:#9fb7a0;font:700 8px 'DM Sans';letter-spacing:2.5px}
+.brand{margin-top:20px}.brand-mark{background:#e8bc83;color:#2f3f35;border:2px solid #f8deac;border-radius:50% 50% 8px 8px;box-shadow:0 5px 0 #0003;font-size:25px;transform:rotate(-5deg)}.brand strong{font:750 28px 'Fraunces',serif;letter-spacing:-.7px}.brand-accent{color:#eeaf79}.brand small{color:#b8c4b8}.side-label,.eyebrow{color:#c0bca1;letter-spacing:2.7px}nav button{border:1px solid transparent;border-radius:10px;color:#baccc1}nav button:hover{background:#39514a;border-color:#536b60;color:#fff3dd}nav button.active{background:#e8c58c;color:#293a32;border:1px solid #f9dbab;box-shadow:0 4px 0 #070d0d36}nav button.active span{color:#325547}.sidebar-bottom .mountain-art{background:linear-gradient(160deg,#344b45,#162b2c);border:1px solid #7c967c60}.mountain-art span{color:#e8ce9f}.build{color:#9bac9d}
+.topbar{background:#172d2fdd;border-bottom:1px solid #66827755;backdrop-filter:blur(16px)}.crumb{color:#a9bdb0;font-family:'Fraunces',serif;font-size:16px}.crumb b{color:#f7e8cb}.connection{border-color:#506c61;background:#243d39}.button,.icon-btn{border-color:#647a6a;background:#283f3b;color:#f9ecd3;box-shadow:0 2px 0 #050f1040}.button:hover,.icon-btn:hover{background:#35554b;border-color:#a2b18d}.button.primary{background:#e7be81;border-color:#f2d29c;color:#22362e;font-weight:800;box-shadow:0 4px 0 #a17b4e70}.button.primary:hover{background:#f9d8a0}.button.quiet{background:#253a37}a.button{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+main{max-width:1540px}.page-head h1{font-family:'Fraunces',serif;letter-spacing:-1px;font-weight:650;color:#f7e5c5}.page-head p{color:#b6c7b9}.panel,.stat,.round{background:linear-gradient(155deg,#263d3b,#1a3032);border:1px solid #65806d88;box-shadow:0 8px 18px #061b1b18,0 1px 0 #a3ae9060 inset}.panel h3,.round-head h3{font-family:'Fraunces',serif;letter-spacing:-.3px}.stat .number{font-family:'Fraunces',serif;letter-spacing:-1px}.stat .corner{color:#e3bc7c}.stat{position:relative}.stat:after{content:'✦';position:absolute;right:10px;bottom:5px;color:#d4b78536;font-size:26px}
+.hero{min-height:320px;border:1px solid #c6be9360;border-radius:22px;background:linear-gradient(90deg,#112a2ce0,#193a3bb0 49%,#203e3640),url('assets/expedition-landscape.svg') center 49%/cover;box-shadow:0 18px 44px #04151655;position:relative}.hero:after{content:'';display:none}.hero:before{content:'THE EXPEDITION  ·  PEAK';position:absolute;right:22px;bottom:18px;font:800 9px 'DM Sans';letter-spacing:3px;color:#f0dec0cc;z-index:1}.hero-content{max-width:600px}.hero h2{font-family:'Fraunces',serif;font-weight:650;font-size:clamp(37px,4.4vw,64px);letter-spacing:-1px;text-shadow:0 4px 14px #071e1ca0}.hero h2 em{color:#f2ca8b}.hero p{color:#e0e5d8;text-shadow:0 2px 10px #122721}.hero .eyebrow{color:#fbd4a0}.hero .button.quiet{background:#122e2dd9;color:#f6e9d4}
+.leader-row,.round-entry{background:#253f3e;border-color:#4e6c60}.leader-row:hover,.round-entry.draggable:hover{background:#305049;border-color:#97ae8e}.leader-row .person-sub{color:#b6c8b7}.rank.first{color:#f3c67b}.bar{background:#142d2d}.bar i{background:#dcb472}.points{font-family:'Fraunces',serif}.avatar{border-radius:50%;box-shadow:0 0 0 3px #1b3431,0 0 0 4px #d5c39d73}.activity-dot{background:#425849;color:#f2cc87}.highlight-box,.map-advice{background:#284840;border:1px solid #71947780;border-radius:14px}.highlight-box .eyebrow{color:#ebc68a}.pill{color:#f1cc91;background:#42503c}.pill.draft{background:#65503b;color:#ffe2b1}.pill.muted{background:#294139;color:#b6c6b8}.round-head{background:#233b39}.round-entry .entry-score{color:#f0ca8a}.drop-help{background:#29453f;color:#dce1c8;border-color:#96a47a}.drag-handle{color:#e5c394}.round-entry.drop-before{box-shadow:inset 0 3px 0 #f4c07d}.round-entry.drop-after{box-shadow:inset 0 -3px 0 #f4c07d}.mini-actions button{background:#38554d;border-color:#7b9582;color:#ffe6c2}.mini-actions button:hover{background:#507262}
+.field input,.field select,.field textarea,select{background:#142e2e;border-color:#587468;color:#f5e8d0}.field input:focus,.field select:focus{border-color:#f6cd90;outline:2px solid #e5bd7955}.field label{color:#c9d2bf}.insight{background:linear-gradient(140deg,#304b43,#243c3c);border:1px solid #6d8570}.insight strong{font-family:'Fraunces',serif}.history-card,.person-row,td,th{border-color:#536d5a}.empty{border-color:#66816d;color:#b4c7b7}.footer{background:#12292b;color:#9bad9b;border-color:#456255}.chart-wrap svg{filter:saturate(.7)}.modal{background:#1c3634;border-color:#7e9176}.modal-backdrop{background:#061a1ccc}.map-hero{position:relative;padding:32px 34px;border:1px solid #b4a78277;border-radius:21px;min-height:230px;background:linear-gradient(90deg,#122e2de8,#204439cf 63%,transparent),url('assets/expedition-landscape.svg') center 54%/cover;margin-bottom:22px}.map-hero h2{font:650 clamp(30px,3.5vw,48px)/1.12 'Fraunces',serif;margin:10px 0 14px}.map-hero h2 em{font-style:normal;color:#f0cc92}.map-hero p{color:#d9e2d5;max-width:520px;margin-bottom:14px}.source-tag{display:inline-block;border:1px solid #ccbf9a70;padding:6px 10px;border-radius:100px;font-size:10px;letter-spacing:.5px;color:#ead6b0;background:#18363188}.map-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);gap:18px}.map-picker{margin-bottom:18px;max-width:390px}.map-notice{background:#5e4833;border:1px solid #bf9b6d;color:#fff0d5;padding:12px 15px;border-radius:12px;margin-bottom:16px}.trail-route{margin:12px 0 20px;position:relative;padding:5px 0 0 8px}.trail-route:before{content:'';position:absolute;left:27px;top:22px;bottom:28px;border-left:2px dashed #c5ac7799}.trail-step{position:relative;display:flex;align-items:center;gap:16px;background:#29483f;border:1px solid #7292768c;margin-bottom:10px;border-radius:14px;padding:15px 18px}.trail-step:nth-child(even){background:#355348}.trail-node{width:38px;height:38px;flex:0 0 38px;border-radius:50%;border:2px solid #f5d2a1;background:#d4b17e;display:grid;place-items:center;color:#24382d;font-weight:900;z-index:1}.trail-step-detail{flex:1}.trail-step-detail strong{display:block;font:650 24px 'Fraunces',serif}.trail-step-detail .eyebrow{font-size:8px;color:#c7c6aa}.trail-symbol{font-size:26px;color:#e8c78e}.trail-finish{text-align:center;color:#f2c784;letter-spacing:2px;font-size:11px;font-weight:800;margin:20px 0 8px}.map-sync-panel{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid #6f836e;padding-top:17px}.map-sync-panel strong{font-size:13px}.map-sync-panel p{color:#b5cabc;font-size:12px;margin-top:5px}.map-detail{padding:20px 0;border-bottom:1px solid #5b7667}.map-detail:first-of-type{padding-top:0}.map-detail strong{display:block;font:650 22px 'Fraunces',serif;margin:7px 0 4px}.map-detail small{color:#bdcbba}.map-advice{padding:16px 18px;margin:24px 0 17px;color:#f2d2a7}.map-advice p{color:#d1dccc;font-size:12px;margin-top:9px}.map-credit{margin-top:18px;color:#98b6a7;font-size:11px}.podium-hero,.podium-hero.complete{background:linear-gradient(90deg,#17352dd9,#17332db0),url('assets/expedition-landscape.svg') center/cover;border:1px solid #c4af866b}.podium-hero h2{font-family:'Fraunces',serif}.podium-stage-wrap .podium-card{background:linear-gradient(180deg,#385047,#1c3033);border-color:#81917a}.podium-card.place-1{background:linear-gradient(180deg,#5b6241,#254039);border-color:#c4ae73}.podium-block{background:#5a6254}.podium-block.champion{background:#b08f5f;color:#1b302c}.podium-medal.gold{background:linear-gradient(180deg,#ffe3aa,#c39e5c)}.fanfare-card{background:#2c4540;border-color:#6d8471}
+@media(max-width:1120px){.map-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.map-hero{padding:24px 20px}.map-sync-panel{align-items:flex-start;flex-direction:column}.map-grid .panel{padding:16px}.hero{min-height:300px;background-position:55% center}.sidebar:before{display:none}.brand{margin-top:2px}.trail-step-detail strong{font-size:20px}.hero h2{font-size:40px}}
+
+/* v1.2.1: spectator navigation, back tracking and podium access */
+.spectator-toolbar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 22px;padding:12px 15px;border:1px solid #9baf8b75;background:linear-gradient(100deg,#28453f,#1d3838);box-shadow:0 5px 20px #081b1b3b;border-radius:15px}
+.spectator-toolbar-start{display:flex;align-items:center;gap:12px;flex:none}
+.spectator-view-label{font-size:10px;letter-spacing:1.8px;color:#e6c995;white-space:nowrap}
+.spectator .spectator-toolbar .spectator-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center;min-width:0}
+.spectator .spectator-toolbar .spectator-link{flex:none;width:auto;padding:9px 12px;background:transparent;border:1px solid transparent;border-radius:9px;color:#e9e7d5;cursor:pointer;font:700 12px 'DM Sans',sans-serif;white-space:nowrap}
+.spectator .spectator-toolbar .spectator-link:hover{background:#38574d;border-color:#788d73}
+.spectator .spectator-toolbar .spectator-link.active{background:#e7be81;color:#20342c;border-color:#f2d29c;box-shadow:0 2px 0 #071d1d70}
+.spectator-toolbar .spectator-back:disabled{opacity:.35;cursor:default}
+.podium-screen .spectator-toolbar{margin:0 0 20px}
+@media(max-width:760px){.spectator-toolbar{padding:10px;gap:10px}.spectator .spectator-toolbar .spectator-links{display:flex;overflow-x:auto;flex-wrap:nowrap;width:100%;padding-bottom:4px}.spectator .spectator-toolbar .spectator-link{font-size:11px;padding:8px 10px}.spectator-view-label{font-size:9px}}
+
+.admin-return{margin:0 0 15px}.admin-return .button{padding:8px 14px}
+/* v1.2.2 — expandable scoring rules */
+.score-edit-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+#scoreCount{margin-top:9px}
+#scorePositions{max-height:310px;overflow:auto;padding:3px 5px 3px 0}
+#scorePositions .score-position{min-width:0}
+
+/* PEAK mobile overview: retain the expedition signature below the content,
+   with reserved space so it never overlaps the Race Complete card. */
+@media (max-width: 760px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    padding-bottom: 72px;
+    align-items: flex-start;
+  }
+
+  .hero-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero::before {
+    content: 'THE EXPEDITION  ·  PEAK';
+    display: block;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+/* Refined scrollbars — Chromium, Safari, Edge, and Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #718a76 #17252a;
+}
+
+/* Scrollable in-page panels, including the spectator navigation and score rules. */
+.spectator-links,
+#scorePositions,
+.modal,
+.table-wrap,
+nav {
+  scrollbar-width: thin;
+  scrollbar-color: #718a76 #17252a;
+}
+
+html::-webkit-scrollbar,
+.spectator-links::-webkit-scrollbar,
+#scorePositions::-webkit-scrollbar,
+.modal::-webkit-scrollbar,
+.table-wrap::-webkit-scrollbar,
+nav::-webkit-scrollbar {
+  width: 9px;
+  height: 7px;
+}
+html::-webkit-scrollbar-track,
+.spectator-links::-webkit-scrollbar-track,
+#scorePositions::-webkit-scrollbar-track,
+.modal::-webkit-scrollbar-track,
+.table-wrap::-webkit-scrollbar-track,
+nav::-webkit-scrollbar-track {
+  background: #17252a;
+  border-radius: 999px;
+}
+html::-webkit-scrollbar-thumb,
+.spectator-links::-webkit-scrollbar-thumb,
+#scorePositions::-webkit-scrollbar-thumb,
+.modal::-webkit-scrollbar-thumb,
+.table-wrap::-webkit-scrollbar-thumb,
+nav::-webkit-scrollbar-thumb {
+  background: #718a76;
+  border: 2px solid #17252a;
+  border-radius: 999px;
+}
+html::-webkit-scrollbar-thumb:hover,
+.spectator-links::-webkit-scrollbar-thumb:hover,
+#scorePositions::-webkit-scrollbar-thumb:hover,
+.modal::-webkit-scrollbar-thumb:hover,
+.table-wrap::-webkit-scrollbar-thumb:hover,
+nav::-webkit-scrollbar-thumb:hover {
+  background: #a7ca8e;
+}

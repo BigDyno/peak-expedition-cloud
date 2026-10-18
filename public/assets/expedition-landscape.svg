@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 660" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#426f75"/><stop offset=".5" stop-color="#85a49c"/><stop offset="1" stop-color="#d4c2a0"/></linearGradient>
+ <linearGradient id="mount" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#607d79"/><stop offset="1" stop-color="#324f51"/></linearGradient>
+ <linearGradient id="near" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#425c55"/><stop offset="1" stop-color="#172f32"/></linearGradient>
+</defs>
+<rect width="1440" height="660" fill="url(#sky)"/>
+<circle cx="1110" cy="128" r="72" fill="#f6dfaf" opacity=".9"/>
+<path d="M0 380 125 313 239 345 367 175 498 352 623 266 710 312 851 103 1063 368 1198 267 1440 392 1440 660 0 660Z" fill="url(#mount)"/>
+<path d="M285 267 367 175 453 278 385 249 353 284 332 252Z M782 191 851 103 927 218 861 193 836 223Z" fill="#e7e1d1" opacity=".82"/>
+<path d="M0 480 203 366 361 433 542 315 728 453 963 320 1123 420 1329 345 1440 420 1440 660 0 660Z" fill="#3a5a56"/>
+<path d="M0 550 153 435 307 503 515 395 646 477 810 414 936 499 1071 431 1235 510 1440 424 1440 660 0 660Z" fill="url(#near)"/>
+<path d="M0 585Q180 495 355 574T746 563T1109 567T1440 526V660H0Z" fill="#112b2d"/>
+<path d="M650 660Q687 611 723 581T792 514" stroke="#d2b78b" stroke-width="5" stroke-dasharray="13 15" fill="none" opacity=".72"/>
+<g fill="#142f2d"><path d="M143 542l24-96 24 96h-15v45h-18v-45Z"/><path d="M121 535l43-97 40 97Z"/><path d="M1244 549l33-127 33 127h-23v70h-20v-70Z"/><path d="M1222 524l55-111 53 111Z"/><path d="M1344 556l20-85 20 85h-12v36h-15v-36Z"/><path d="M1330 545l34-81 33 81Z"/></g>
+<path d="M905 581q24-13 46 0" stroke="#dc9962" stroke-width="5" fill="none"/><path d="M918 571q6-23 17-35 17 20 10 35Z" fill="#f1b36d"/><path d="M925 571q4-15 11-23 8 12 4 23Z" fill="#f4e4aa"/>
+<g fill="#f3e6ca" opacity=".75"><circle cx="198" cy="115" r="2"/><circle cx="247" cy="142" r="2"/><circle cx="1080" cy="53" r="2"/><circle cx="1165" cy="242" r="2"/></g>
+</svg>

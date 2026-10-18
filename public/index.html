@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090d14">
+  <title>PEAK / Race Control</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="expedition.css">
+  <link rel="stylesheet" href="cloud.css">
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">▲</span>
+        <div>
+          <strong>PEAK<span class="brand-accent">.</span></strong>
+          <small>RACE CONTROL</small>
+        </div>
+      </div>
+
+      <div class="side-label">WORKSPACE</div>
+      <nav id="nav">
+        <button data-page="overview" class="active"><span>◈</span> Overview</button>
+        <button data-page="race"><span>⚑</span> Campfires</button>
+        <button data-page="map"><span>◈</span> Expedition map</button>
+        <button data-page="people"><span>♧</span> Racers & teams</button>
+        <button data-page="analytics"><span>▥</span> Analytics</button>
+        <button data-page="podium"><span>🏆</span> Podium</button>
+        <button data-page="history"><span>◷</span> Race vault</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mountain-art">
+          <span>EVERY CLIMB<br>HAS A STORY.</span>
+          <svg viewBox="0 0 250 95" preserveAspectRatio="none">
+            <path d="M0 92L50 49 76 66 121 7 163 64 191 35 250 95Z" fill="#374451"></path>
+            <path d="M25 95L76 56 105 81 150 25 209 95Z" fill="#647284" opacity=".45"></path>
+            <path d="M103 31L121 7 136 30 124 25 116 35Z" fill="#e9e6e0"></path>
+          </svg>
+        </div>
+        <small class="build">PEAK CLOUD · EXPEDITION EDITION</small>
+      </div>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div class="crumb">PEAK <span>/</span> <b id="crumb">Overview</b></div>
+        <div class="top-actions">
+          <div class="connection" id="connection"><span class="status-dot"></span><span id="syncLabel">Connecting…</span></div>
+          <button class="icon-btn" id="refresh" title="Refresh cloud">↻</button>
+          <button class="button quiet" id="spectate">◉ Spectator</button>
+          <button class="button primary" id="saveNow">↑ Sync now</button>
+        </div>
+      </header>
+
+      <main id="view"></main>
+      <footer class="footer">Built for the climb. Made for the rivalry. <span>PEAK RACE CONTROL</span></footer>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <div id="modal" class="modal-backdrop hidden" aria-hidden="true">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="modalTitle">Details</h2>
+        <button id="modalClose" class="icon-btn">✕</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+  <script src="app.js" defer></script>
+</body>
+</html>

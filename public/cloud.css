@@ -1,0 +1,38 @@
+/* PEAK Cloud additions. All existing Expedition styling remains intact. */
+.landing .sidebar{display:none!important}
+.landing .shell{width:100%;min-height:100vh}
+.landing .topbar{padding:0 clamp(16px,4vw,55px)}
+.landing main{max-width:1130px;padding-top:clamp(20px,5vw,60px)}
+.landing-hero{min-height:320px}
+.landing-hero .hero-content{max-width:720px}
+.landing-hero h2{font-size:clamp(40px,5.5vw,75px)}
+.landing-grid{margin-top:22px;margin-bottom:20px;align-items:stretch}
+.landing-grid .panel{padding:30px;display:flex;flex-direction:column;gap:14px}
+.landing-grid .panel form{display:grid;gap:14px;align-content:start}
+.landing-grid .field input{padding:15px 17px;font-size:16px;letter-spacing:.02em}
+.landing-grid .button.primary{justify-self:start;padding:12px 18px}
+.landing-extra{margin-top:auto;padding-top:10px}
+.landing-tip{margin-top:20px;padding:24px}
+.landing-tip p{color:var(--muted);max-width:790px;margin-top:10px}
+.race-share-bar{border:1px solid var(--line);background:linear-gradient(110deg,#293e34b8,#18302cbd);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:13px 17px;margin-bottom:22px}
+.race-share-bar>div:first-child{display:grid;gap:2px;min-width:0}
+.race-share-bar strong{font:700 16px 'Space Grotesk',sans-serif;letter-spacing:.6px;color:var(--lime)}
+.race-share-bar span{font-size:12px;color:var(--muted);word-break:break-word}
+.race-share-bar .actions{gap:7px}
+.race-share-bar .button{white-space:normal}
+.credential-warning{padding:12px 14px;border:1px solid #a7824f;background:#443722; color:#ffdb9b;border-radius:12px;margin-bottom:15px;font-size:13px}
+#modalBody textarea[readonly],#modalBody input[readonly]{font-family:ui-monospace,Consolas,monospace;user-select:all;overflow-wrap:anywhere}
+.landing .footer{max-width:1250px;margin:auto}
+.podium-screen .race-share-bar{margin-bottom:12px}
+@media(max-width:760px){
+  .landing main{padding-top:18px}
+  .landing-hero{min-height:0;padding:28px 20px 60px}
+  .landing-hero h2{font-size:44px}
+  .landing-hero .hero-content{max-width:100%}
+  .landing-grid .panel{padding:20px}
+  .race-share-bar{align-items:stretch;padding:12px}
+  .race-share-bar .actions{width:100%}
+  .race-share-bar .button{flex:1 1 auto}
+  .connection{white-space:normal}
+  .landing .topbar{min-height:58px}
+}
