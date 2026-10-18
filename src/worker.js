@@ -71,7 +71,7 @@ async function rateLimitCreate(env, req) {
   const source = req.headers.get('CF-Connecting-IP') || 'local';
   const id = await sha256(`${day}:${source}`);
   const updated = await env.DB.prepare(`INSERT INTO create_limits (bucket, usage_count) VALUES (?, 1)
-      ON CONFLICT(bucket) DO UPDATE SET usage_count=usage_count+1 WHERE usage_count < 20
+      ON CONFLICT(bucket) DO UPDATE SET usage_count=usage_count+1 WHERE usage_count < 50
       RETURNING usage_count`).bind(`${day}:${id}`).first();
   return !!updated;
 }
