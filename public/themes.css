@@ -1,0 +1,200 @@
+/* PEAK Cloud colour themes. Load after styles.css, expedition.css and cloud.css.
+   Expedition remains the untouched default. Preferences are browser-local. */
+
+/* Theme picker: intentionally usable in organizer, spectator and welcome views. */
+.theme-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}
+.theme-button span{font-size:12px}
+.theme-dialog-intro{color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 14px}
+.theme-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.theme-option{appearance:none;cursor:pointer;text-align:left;border:1px solid var(--line);color:var(--text);background:var(--panel2);padding:12px 12px 11px;display:flex;flex-direction:column;gap:10px;border-radius:14px;min-width:0;position:relative;transition:transform .15s,border-color .15s,box-shadow .15s}
+.theme-option:hover{transform:translateY(-2px);border-color:var(--lime);box-shadow:0 9px 20px #020d1255}
+.theme-option.selected{border:2px solid var(--lime);padding:11px 11px 10px;box-shadow:0 0 0 2px #aacd9622}
+.theme-option:focus-visible,.theme-button:focus-visible,.theme-accent-actions input:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.theme-swatches{display:grid;grid-template-columns:repeat(3,1fr);height:46px;overflow:hidden;border:1px solid #ffffff30;border-radius:9px}
+.theme-swatches i{display:block;min-width:0}
+.theme-option-copy{display:grid;gap:4px;padding-right:14px}
+.theme-option-copy strong{font:700 14px 'Space Grotesk','DM Sans',sans-serif;letter-spacing:.1px}
+.theme-option-copy small{font-size:11px;line-height:1.3;color:var(--muted)}
+.theme-check{position:absolute;right:12px;bottom:11px;font-size:16px;color:var(--lime);font-weight:900}
+.theme-accent-panel{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.theme-accent-panel>div:first-child{display:grid;gap:4px;min-width:0}
+.theme-accent-panel strong{font-size:13px}
+.theme-accent-panel small{color:var(--muted);font-size:11px;line-height:1.35}
+.theme-accent-actions{display:flex;align-items:center;gap:8px;flex:none}
+.theme-accent-actions input[type=color]{width:46px;height:36px;min-width:46px;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:3px;background:var(--panel);}
+.theme-accent-actions .button{white-space:nowrap}
+.theme-accent-actions .button:disabled{opacity:.35;cursor:default}
+.theme-dialog-foot{font-size:11px;line-height:1.5;color:var(--muted);margin-top:13px}
+@media(max-width:760px){.theme-button{padding:8px 10px!important}.theme-button span{display:none}.theme-options{gap:8px}.theme-option{padding:9px}.theme-option.selected{padding:8px}.theme-swatches{height:36px}.theme-option-copy strong{font-size:12px}.theme-option-copy small{font-size:10px}.theme-accent-panel{align-items:flex-start;flex-wrap:wrap}}
+
+/* Palette definitions */
+:root{--p-accent:#e7be81;--p-accent-ink:#20342c}
+html[data-peak-theme="alpine"]{
+  --p-bg:#0b1b26;--p-panel:#192f3a;--p-panel2:#244451;--p-border:#537b89;
+  --p-text:#eff9fc;--p-muted:#b9d7df;--p-quiet:#91adbe;--p-accent:#a7e5f3;--p-accent-ink:#102935;
+  --p-deep:#091824;--p-top:#122b39e8;--p-side-top:#244656;--p-side-low:#0c202e;
+  --p-hero-deep:#0b2737eb;--p-hero-fade:#285b7299;--p-hint:#24485a;
+}
+html[data-peak-theme="tropics"]{
+  --p-bg:#092522;--p-panel:#173c32;--p-panel2:#235044;--p-border:#477b66;
+  --p-text:#f0fbea;--p-muted:#bfdfc9;--p-quiet:#90baa4;--p-accent:#91e2a4;--p-accent-ink:#103126;
+  --p-deep:#061d19;--p-top:#10382fe8;--p-side-top:#255642;--p-side-low:#0a2925;
+  --p-hero-deep:#0b332ae9;--p-hero-fade:#2d765394;--p-hint:#2d664a;
+}
+html[data-peak-theme="volcano"]{
+  --p-bg:#1b181d;--p-panel:#30272b;--p-panel2:#483238;--p-border:#7e5353;
+  --p-text:#fff0e4;--p-muted:#e3c5ba;--p-quiet:#bf9994;--p-accent:#ffae73;--p-accent-ink:#361d1b;
+  --p-deep:#171318;--p-top:#2a2026e8;--p-side-top:#4b3030;--p-side-low:#241c26;
+  --p-hero-deep:#2a2025ee;--p-hero-fade:#8b453eaa;--p-hint:#563334;
+}
+html[data-peak-theme="shore"]{
+  --p-bg:#092632;--p-panel:#173c4b;--p-panel2:#265367;--p-border:#588597;
+  --p-text:#fff5e5;--p-muted:#d2e2db;--p-quiet:#9cbdc2;--p-accent:#ffd89b;--p-accent-ink:#193640;
+  --p-deep:#071d29;--p-top:#143747ea;--p-side-top:#255264;--p-side-low:#0b2a37;
+  --p-hero-deep:#0d3543e9;--p-hero-fade:#3a7b8c8f;--p-hint:#2a6271;
+}
+
+/* Apply a complete palette only to non-default themes. */
+html[data-peak-theme]:not([data-peak-theme="expedition"]){
+  --bg:var(--p-bg);--panel:var(--p-panel);--panel2:var(--p-panel2);
+  --line:var(--p-border);--text:var(--p-text);--muted:var(--p-muted);
+  --quiet:var(--p-quiet);--lime:var(--p-accent);color-scheme:dark;
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) body{
+  background:radial-gradient(ellipse at 32% 0,var(--p-panel2) 0,var(--p-bg) 47%,var(--p-deep) 100%);
+  color:var(--p-text)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .sidebar{
+  background:linear-gradient(160deg,var(--p-side-top),var(--p-side-low) 75%);
+  border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .sidebar::before,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .side-label,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .eyebrow{color:var(--p-muted)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .topbar,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .footer{
+  background:var(--p-top);border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .crumb b,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .page-head h1,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .panel h3{
+  color:var(--p-text)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) nav button{color:var(--p-muted)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) nav button:hover{background:var(--p-panel2);color:var(--p-text);border-color:var(--p-border)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .panel,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .stat,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .round,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .modal{
+  background:linear-gradient(165deg,var(--p-panel2),var(--p-panel) 75%);
+  border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .hero,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .podium-hero,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .podium-hero.complete{
+  background:linear-gradient(100deg,var(--p-hero-deep),var(--p-hero-fade) 69%,transparent),url('assets/expedition-landscape.svg') center 49%/cover;
+  border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .map-hero{
+  background:linear-gradient(100deg,var(--p-hero-deep),var(--p-hero-fade) 69%,transparent),url('assets/expedition-landscape.svg') center 54%/cover;
+  border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .hero h2 em,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .map-hero h2 em,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .brand-accent,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .points,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .rank.first,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .stat .corner,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .leader-row .person-sub,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .trail-symbol,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .checkpoint-upcoming-name{
+  color:var(--p-accent)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .leader-row,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .round-entry,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .insight,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .fanfare-card,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .pill.muted,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .highlight-box,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .round-head,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .map-advice,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .trail-step,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .theme-option,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .theme-accent-panel{
+  background:var(--p-panel2);border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .trail-step:nth-child(even){background:var(--p-panel)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .field input,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .field select,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .field textarea,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) select{
+  background:var(--p-deep);color:var(--p-text);border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .button,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .icon-btn,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .mini-actions button{
+  background:var(--p-panel2);border-color:var(--p-border);color:var(--p-text)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .button.quiet{background:var(--p-panel2)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .button:hover,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .icon-btn:hover{background:var(--p-hint)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .race-share-bar,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .spectator-toolbar,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .connection,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .history-card{
+  background:var(--p-panel);border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .podium-card,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .podium-card.place-1{
+  background:linear-gradient(180deg,var(--p-hint),var(--p-panel));border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .podium-block,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .podium-block.champion{
+  background:var(--p-border);color:var(--p-text)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .trail-activity-current{
+  background:var(--p-hint);border-color:var(--p-accent);box-shadow:inset 3px 0 var(--p-accent)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .trail-activity-upcoming{
+  background:var(--p-panel);border-color:var(--p-border)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .activity-dot,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .trail-node{
+  background:var(--p-hint);border-color:var(--p-border);color:var(--p-accent)
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .bar{background:var(--p-deep)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .bar i{background:var(--p-accent)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .chart-wrap svg{filter:none}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .spectator .spectator-toolbar .spectator-link{color:var(--p-text)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .spectator .spectator-toolbar .spectator-link:hover{background:var(--p-hint)}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .footer,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .peak-footer-disclaimer{color:var(--p-muted)}
+
+/* Shared accent treatments also power the optional custom colour, without altering race data. */
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .button.primary,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) nav button.active,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .spectator .spectator-toolbar .spectator-link.active,
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .brand-mark,
+html[data-peak-custom-accent] .button.primary,
+html[data-peak-custom-accent] nav button.active,
+html[data-peak-custom-accent] .spectator .spectator-toolbar .spectator-link.active,
+html[data-peak-custom-accent] .brand-mark{
+  background:var(--p-accent);border-color:var(--p-accent);color:var(--p-accent-ink);box-shadow:0 3px 0 #06151840
+}
+html[data-peak-theme]:not([data-peak-theme="expedition"]) .button.primary:hover,
+html[data-peak-custom-accent] .button.primary:hover{filter:brightness(1.1)}
+html[data-peak-custom-accent] .hero h2 em,
+html[data-peak-custom-accent] .map-hero h2 em,
+html[data-peak-custom-accent] .brand-accent,
+html[data-peak-custom-accent] .points,
+html[data-peak-custom-accent] .rank.first,
+html[data-peak-custom-accent] .stat .corner,
+html[data-peak-custom-accent] .checkpoint-upcoming-name,
+html[data-peak-custom-accent] .race-share-bar strong{color:var(--p-accent)}
+html[data-peak-custom-accent] .bar i{background:var(--p-accent)}
+html[data-peak-custom-accent] .trail-activity-current{border-color:var(--p-accent);box-shadow:inset 3px 0 var(--p-accent)}
+html[data-peak-custom-accent] .theme-option.selected{border-color:var(--p-accent)}
+html[data-peak-custom-accent] .theme-check{color:var(--p-accent)}
+
+/* Respect the visitor's reduced-motion setting. */
+@media(prefers-reduced-motion:reduce){.theme-option{transition:none}}

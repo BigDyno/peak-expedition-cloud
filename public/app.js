@@ -29,6 +29,72 @@
   const clone = (x) => JSON.parse(JSON.stringify(x));
   const hash = (x) => JSON.stringify(x);
 
+
+  // Visual preferences belong to this browser, never to the shared race record.
+  const THEME_KEY = 'peak_cloud_theme_v1';
+  const ACCENT_KEY = 'peak_cloud_custom_accent_v1';
+  const THEME_OPTIONS = [
+    { id: 'expedition', label: 'Expedition', desc: 'Original forest & parchment', swatches: ['#142e30','#2c4d43','#e7be81'] },
+    { id: 'alpine', label: 'Alpine Frost', desc: 'Icy blue and snow', swatches: ['#10202d','#294c5b','#a7e5f3'] },
+    { id: 'tropics', label: 'Tropical Canopy', desc: 'Deep jungle and bright mint', swatches: ['#0a2827','#236047','#8ee0a4'] },
+    { id: 'volcano', label: 'Volcanic Ember', desc: 'Ash, magma and firelight', swatches: ['#231d21','#54312e','#ffae73'] },
+    { id: 'shore', label: 'Shoreline', desc: 'Sea glass and sunset sand', swatches: ['#102d39','#23576a','#ffd89b'] }
+  ];
+  const readPreference = (key) => { try { return localStorage.getItem(key) || ''; } catch { return ''; } };
+  const writePreference = (key, value) => { try { if (value) localStorage.setItem(key, value); else localStorage.removeItem(key); } catch { /* Preferences are optional. */ } };
+  const storedTheme = readPreference(THEME_KEY);
+  let selectedTheme = THEME_OPTIONS.some((option) => option.id === storedTheme) ? storedTheme : 'expedition';
+  const storedAccent = readPreference(ACCENT_KEY);
+  let customAccent = /^#[0-9a-f]{6}$/i.test(storedAccent) ? storedAccent : '';
+  function colorOn(hex) {
+    const values = [1,3,5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+    const luminance = values.map((x) => x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4));
+    return (0.2126 * luminance[0] + 0.7152 * luminance[1] + 0.0722 * luminance[2]) > 0.38 ? '#152423' : '#fffdf7';
+  }
+  function applyTheme() {
+    const root = document.documentElement;
+    root.dataset.peakTheme = selectedTheme;
+    if (customAccent) {
+      root.dataset.peakCustomAccent = 'true';
+      root.style.setProperty('--p-accent', customAccent);
+      root.style.setProperty('--p-accent-ink', colorOn(customAccent));
+    } else {
+      delete root.dataset.peakCustomAccent;
+      root.style.removeProperty('--p-accent');
+      root.style.removeProperty('--p-accent-ink');
+    }
+    const picker = $('#themePicker');
+    if (picker) picker.title = `Appearance: ${THEME_OPTIONS.find((o) => o.id === selectedTheme).label}${customAccent ? ' (custom accent)' : ''}`;
+  }
+  function chooseTheme(id) {
+    if (!THEME_OPTIONS.some((o) => o.id === id)) return;
+    selectedTheme = id;
+    customAccent = '';
+    writePreference(THEME_KEY, id);
+    writePreference(ACCENT_KEY, '');
+    applyTheme();
+    openThemePicker();
+  }
+  function chooseAccent(hex) {
+    if (!/^#[0-9a-f]{6}$/i.test(hex)) return;
+    customAccent = hex;
+    writePreference(ACCENT_KEY, hex);
+    applyTheme();
+  }
+  function openThemePicker() {
+    const options = THEME_OPTIONS.map((theme) => `<button type="button" class="theme-option ${selectedTheme === theme.id ? 'selected' : ''}" data-ui-theme="${theme.id}" aria-pressed="${selectedTheme === theme.id}">
+      <span class="theme-swatches" aria-hidden="true">${theme.swatches.map((shade) => `<i style="background:${shade}"></i>`).join('')}</span>
+      <span class="theme-option-copy"><strong>${theme.label}</strong><small>${theme.desc}</small></span>
+      <span class="theme-check" aria-hidden="true">${selectedTheme === theme.id ? '✓' : ''}</span>
+    </button>`).join('');
+    openModal('🎨 Choose your colours', `<p class="theme-dialog-intro">Make the expedition your own. Colours change only on this device, including spectator mode.</p>
+      <div class="theme-options" role="group" aria-label="Colour themes">${options}</div>
+      <div class="theme-accent-panel"><div><strong>Custom accent</strong><small>Pick an accent to personalize the selected theme.</small></div>
+        <div class="theme-accent-actions"><input id="customThemeAccent" type="color" value="${customAccent || THEME_OPTIONS.find((o) => o.id === selectedTheme).swatches[2]}" aria-label="Choose custom accent colour">
+        <button type="button" class="button tiny quiet" data-ui-accent-reset ${customAccent ? '' : 'disabled'}>Reset</button></div></div>
+      <p class="theme-dialog-foot">Your choice is saved in this browser. It won't change anyone else's PEAK experience or your race scores.</p>`);
+  }
+
   const fresh = () => ({
     version: 5,
     players: [],
@@ -1120,7 +1186,7 @@
     $('#refresh').style.display = !raceCode ? 'none' : '';
     $('#spectate').style.display = !raceCode ? 'none' : '';
     $('#spectate').textContent = spectator ? '↩ Exit view' : '◉ Spectator';
-    $('#spectate').style.display = podiumPresentation ? 'none' : '';
+    $('#spectate').style.display = podiumPresentation || !raceCode ? 'none' : '';
   }
 
   async function action(a, el) {
@@ -1410,11 +1476,21 @@
   }
 
   function init() {
+    applyTheme();
     localLoad();
     render();
     status('', raceCode ? (dirty ? 'Unsynced edits from previous visit' : 'Connecting to race…') : 'Create or join a race');
 
     document.addEventListener('click', (e) => {
+      const themeOption = e.target.closest('[data-ui-theme]');
+      if (themeOption) { chooseTheme(themeOption.dataset.uiTheme); return; }
+      if (e.target.closest('[data-ui-accent-reset]')) {
+        customAccent = '';
+        writePreference(ACCENT_KEY, '');
+        applyTheme();
+        openThemePicker();
+        return;
+      }
       if (e.target.closest('[data-nav-back]')) {
         goBack();
         return;
@@ -1426,6 +1502,14 @@
       }
       const b = e.target.closest('[data-action]');
       if (b) action(b.dataset.action, b);
+    });
+
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'customThemeAccent') {
+        chooseAccent(e.target.value);
+        const reset = $('[data-ui-accent-reset]');
+        if (reset) reset.disabled = false;
+      }
     });
 
     document.addEventListener('submit', submitted);
@@ -1447,6 +1531,7 @@
       }
     });
 
+    $('#themePicker').addEventListener('click', openThemePicker);
     $('#refresh').addEventListener('click', () => loadCloud({force:dirty}));
     $('#saveNow').addEventListener('click', () => saveCloud({ manual: true }));
     $('#spectate').addEventListener('click', () => {
