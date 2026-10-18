@@ -36,3 +36,9 @@
   .connection{white-space:normal}
   .landing .topbar{min-height:58px}
 }
+
+/* Unofficial fan-project disclaimer, displayed beneath the site footer. */
+.peak-footer-main{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 24px}
+.peak-footer-main span{float:none}
+.peak-footer-disclaimer{margin:12px 0 0;padding-top:12px;border-top:1px solid #45625577;color:#a9bdac;font-size:11px;line-height:1.6;max-width:850px}
+@media(max-width:760px){.peak-footer-main{gap:6px}.peak-footer-main span:last-child{display:none}.peak-footer-disclaimer{font-size:11px}}
