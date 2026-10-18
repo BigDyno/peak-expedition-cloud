@@ -356,7 +356,7 @@
           <div class="landing-extra"><button class="button tiny quiet" data-action="recover-access">Lost organizer access? Recover with your key</button></div>
         </section>
       </div>
-      <section class="panel landing-tip"><h3>Bringing a race from your old PEAK site?</h3><p>First create a new expedition, then open Race Vault → Import JSON to upload your existing race export. Your familiar scoring and podium features will be retained.</p></section>`;
+      <!-- <section class="panel landing-tip"><h3>Bringing a race from your old PEAK site?</h3><p>First create a new expedition, then open Race Vault → Import JSON to upload your existing race export. Your familiar scoring and podium features will be retained.</p></section> -->`;
   }
 
   function sharePanel() {
