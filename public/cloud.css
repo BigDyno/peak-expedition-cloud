@@ -42,3 +42,22 @@
 .peak-footer-main span{float:none}
 .peak-footer-disclaimer{margin:12px 0 0;padding-top:12px;border-top:1px solid #45625577;color:#a9bdac;font-size:11px;line-height:1.6;max-width:850px}
 @media(max-width:760px){.peak-footer-main{gap:6px}.peak-footer-main span:last-child{display:none}.peak-footer-disclaimer{font-size:11px}}
+
+
+/* PEAK Cloud — current checkpoint and up-next trail progression */
+.trail-activity{padding:9px 11px;border:1px solid transparent;border-radius:12px;min-width:0}
+.trail-activity-copy{min-width:0;flex:1}
+.trail-activity-copy strong{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.trail-activity-current{background:linear-gradient(95deg,#4d624b91,#2a4d407a);border-color:#e9c48ca6;box-shadow:inset 3px 0 #f1cc91}
+.trail-activity-current .activity-dot{background:#e3bc7e;color:#17362e}
+.trail-activity-upcoming{background:#37564b62;border-color:#7798836c}
+.trail-stage-tag{display:inline-flex;align-items:center;border:1px solid currentColor;border-radius:999px;padding:2px 7px;font:800 9px/1.4 'DM Sans',sans-serif;letter-spacing:.75px;white-space:nowrap}
+.trail-stage-tag.current{color:#f5d69c;background:#66553866}
+.trail-stage-tag.upcoming{color:#c9e4c2;background:#40685166}
+.checkpoint-progress{display:grid;gap:13px}
+.checkpoint-current h3{font-family:'Fraunces',serif;font-size:clamp(20px,2vw,25px);line-height:1.3;margin:5px 0}
+.checkpoint-upcoming{padding:12px 0 0;border-top:1px solid #9daf8e55}
+.checkpoint-upcoming .eyebrow{color:#bdceb6;font-size:9px;letter-spacing:1.4px}
+.checkpoint-upcoming-name{margin-top:5px;color:#f2d6a5;font:650 19px/1.25 'Fraunces',serif;overflow-wrap:anywhere}
+.checkpoint-progress>.button{justify-self:start}
+@media(max-width:760px){.trail-activity{padding:8px 9px}.trail-stage-tag{font-size:8px}.checkpoint-progress{gap:12px}}

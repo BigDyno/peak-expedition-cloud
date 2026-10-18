@@ -104,7 +104,7 @@
   const color = (x, i = 0) => x?.color || COLORS[i % COLORS.length];
   const raceComplete = () => state.rounds.length > 0 && state.rounds.every((r) => r.finalized);
   function biomeEmoji(label) {
-    const names = { shore:'🏖️', tropics:'🌴', alpine:'🏔️', swamp:'🐸', mesa:'🏜️', caldera:'🌋', roots:'🌳', kiln:'🔥', citadel:'🏰', volcano:'🔥' };
+    const names = { shore:'🏖️', tropics:'🌴', alpine:'🏔️', swamp:'🐸', mesa:'🏜️', caldera:'🌋', roots:'🌳', kiln:'🔥', citadel:'🏰' };
     const raw = String(label || '').trim().replace(/^[^\p{L}\p{N}]+/u, '').trim();
     const match = Object.keys(names).find((b) => raw.toLowerCase() === b || raw.toLowerCase().startsWith(`${b} campfire`));
     return `${names[match] || '⛰️'} ${raw}`;
@@ -356,21 +356,12 @@
           <div class="landing-extra"><button class="button tiny quiet" data-action="recover-access">Lost organizer access? Recover with your key</button></div>
         </section>
       </div>
-      <!-- <section class="panel landing-tip"><h3>Bringing a race from your old PEAK site?</h3><p>First create a new expedition, then open Race Vault → Import JSON to upload your existing race export. Your familiar scoring and podium features will be retained.</p></section> -->
       <section class="panel landing-tip">
-    <h3>🏔️ Built for the love of PEAK</h3>
-    <p>
-        PEAK Expedition is a personal passion project created
-        for friends who love a little friendly competition.
-        It's free to use, so feel free to create your own
-        expedition, invite your crew, and see who reaches
-        the summit!
-    </p>
-    <p style="margin-top:10px;opacity:0.8">
-        <em>Happy climbing, and may the best climber win! 🔥</em>
-    </p>
-</section>
-      `;
+        <h3>🏔️ Built for the love of PEAK</h3>
+        <p>PEAK Expedition is a personal, fan-made passion project originally created for friends who enjoy a little friendly competition. You're welcome to use it for your own races—create an expedition, invite your crew, and see who reaches the summit!</p>
+        <p style="margin-top:10px;opacity:0.85"><em>Happy climbing, and may the best climber win! 🔥</em></p>
+        <p class="subline" style="margin-top:12px">Unofficial fan project. Not affiliated with or endorsed by the creators of PEAK.</p>
+      </section>`;
   }
 
   function sharePanel() {
@@ -581,10 +572,23 @@
       </div>`).join('')}</div>`;
   }
 
-  function roundSummary(r) {
+  // Race order is the stored order, not the most recently created campfire.
+  // The current checkpoint is always the first unfinished campfire; the next
+  // checkpoint is the next unfinished campfire AFTER it, if one exists.
+  function checkpointProgress() {
+    const currentIndex = state.rounds.findIndex((r) => !r.finalized);
+    const current = currentIndex < 0 ? null : state.rounds[currentIndex];
+    const upcoming = current ? state.rounds.slice(currentIndex + 1).find((r) => !r.finalized) || null : null;
+    return { current, upcoming, currentIndex };
+  }
+
+  function roundSummary(r, progress) {
     const top = r.order.find((x) => !x.ghost);
     const p = player(top?.id);
-    return `<div class="activity-row"><div class="activity-dot">${r.finalized ? '✓' : '○'}</div><div><strong>${esc(r.name)} · ${r.finalized ? 'Finalized' : 'Draft'}</strong><small>${p ? `${esc(p.name)} leads the checkpoint` : 'No finishing order recorded'} · ${r.order.filter((o) => o.ghost).length} ghosts</small></div></div>`;
+    const isCurrent = progress.current?.id === r.id;
+    const isUpcoming = progress.upcoming?.id === r.id;
+    const positionLabel = isCurrent ? '<span class="trail-stage-tag current">CURRENT</span>' : isUpcoming ? '<span class="trail-stage-tag upcoming">UP NEXT</span>' : '';
+    return `<div class="activity-row trail-activity ${isCurrent ? 'trail-activity-current' : isUpcoming ? 'trail-activity-upcoming' : ''}"><div class="activity-dot">${r.finalized ? '✓' : isCurrent ? '➤' : '○'}</div><div class="trail-activity-copy"><strong>${esc(r.name)} · ${r.finalized ? 'Finalized' : 'Draft'} ${positionLabel}</strong><small>${p ? `${esc(p.name)} leads the checkpoint` : 'No finishing order recorded'} · ${r.order.filter((o) => o.ghost).length} ghosts</small></div></div>`;
   }
 
   function chart() {
@@ -621,7 +625,30 @@
   function overview() {
     const l = leaders();
     const r = completed();
-    const nextDraft = state.rounds.find((r) => !r.finalized);
+    const progress = checkpointProgress();
+    // Display the trail like a climb: later campfires higher on the page,
+    // and earlier ones below. For long routes, include CURRENT and UP NEXT,
+    // plus a little of the completed trail beneath the current checkpoint.
+    const maxTrailItems = 6;
+    let activityRounds;
+    if (progress.current) {
+      const visible = new Set([progress.currentIndex]);
+      if (progress.upcoming) {
+        visible.add(state.rounds.findIndex((round) => round.id === progress.upcoming.id));
+      }
+      if (progress.currentIndex > 0 && visible.size < maxTrailItems) {
+        visible.add(progress.currentIndex - 1);
+      }
+      for (let i = progress.currentIndex + 1; i < state.rounds.length && visible.size < maxTrailItems; i++) {
+        visible.add(i);
+      }
+      for (let i = progress.currentIndex - 2; i >= 0 && visible.size < maxTrailItems; i--) {
+        visible.add(i);
+      }
+      activityRounds = state.rounds.filter((_, i) => visible.has(i)).reverse();
+    } else {
+      activityRounds = state.rounds.slice().reverse().slice(0, maxTrailItems);
+    }
     const finalCallout = raceComplete()
       ? `<div class="hero-callout complete"><strong>Race complete.</strong><span>The summit has been conquered — open the podium screen for the celebration.</span><button class="button primary" data-page="podium">🏆 View podium</button></div>`
       : '';
@@ -652,13 +679,19 @@
           ${leaderboard(10)}
         </section>
         <section class="panel">
-          <div class="panel-head"><div><h3>From the trail</h3><p>Most recent checkpoint activity</p></div><button class="button tiny quiet" data-page="race">All campfires ↗</button></div>
-          <div class="activity">${state.rounds.length ? state.rounds.slice().reverse().slice(0, 6).map(roundSummary).join('') : '<div class="empty">Create your first campfire to start the race.</div>'}</div>
-          <div class="highlight-box">
-            <div class="eyebrow">NEXT CHECKPOINT</div>
-            <h3>${esc(nextDraft ? nextDraft.name : `Campfire ${state.rounds.length + 1}`)}</h3>
-            <p class="subline">${nextDraft ? 'Next unfinished checkpoint in race order.' : 'Ready to create another campfire.'}</p>
-            ${spectator ? '' : `<button class="button primary tiny" ${nextDraft ? 'data-page="race"' : 'data-action="new-round"'}>${nextDraft ? 'Open campfires →' : 'Add campfire +'}</button>`}
+          <div class="panel-head"><div><h3>From the trail</h3><p>Active checkpoint and the route ahead</p></div><button class="button tiny quiet" data-page="race">All campfires ↗</button></div>
+          <div class="activity">${state.rounds.length ? activityRounds.map((round) => roundSummary(round, progress)).join('') : '<div class="empty">Create your first campfire to start the race.</div>'}</div>
+          <div class="highlight-box checkpoint-progress">
+            <div class="checkpoint-current">
+              <div class="eyebrow">● CURRENT CHECKPOINT${progress.current ? ` · ${progress.currentIndex + 1} OF ${state.rounds.length}` : ''}</div>
+              <h3>${esc(progress.current ? progress.current.name : state.rounds.length ? '🏆 Race complete' : 'Awaiting first campfire')}</h3>
+              <p class="subline">${progress.current ? 'You are here. Finalize this campfire to advance.' : state.rounds.length ? 'All checkpoints are finalized — time for the podium!' : 'Add your first campfire to begin the climb.'}</p>
+            </div>
+            <div class="checkpoint-upcoming">
+              <div class="eyebrow">↗ UP NEXT</div>
+              <div class="checkpoint-upcoming-name">${esc(progress.upcoming ? progress.upcoming.name : progress.current ? '🏁 The finish line' : state.rounds.length ? '🏆 Victory podium' : 'Choose your route')}</div>
+            </div>
+            ${spectator ? '' : `<button class="button primary tiny" ${progress.current ? 'data-page="race"' : state.rounds.length ? 'data-page="podium"' : 'data-action="new-round"'}>${progress.current ? 'Open campfires →' : state.rounds.length ? 'View podium 🏆' : 'Add campfire +'}</button>`}
           </div>
         </section>
       </div>
