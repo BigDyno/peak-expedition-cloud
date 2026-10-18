@@ -356,7 +356,21 @@
           <div class="landing-extra"><button class="button tiny quiet" data-action="recover-access">Lost organizer access? Recover with your key</button></div>
         </section>
       </div>
-      <!-- <section class="panel landing-tip"><h3>Bringing a race from your old PEAK site?</h3><p>First create a new expedition, then open Race Vault → Import JSON to upload your existing race export. Your familiar scoring and podium features will be retained.</p></section> -->`;
+      <!-- <section class="panel landing-tip"><h3>Bringing a race from your old PEAK site?</h3><p>First create a new expedition, then open Race Vault → Import JSON to upload your existing race export. Your familiar scoring and podium features will be retained.</p></section> -->
+      <section class="panel landing-tip">
+    <h3>🏔️ Built for the love of PEAK</h3>
+    <p>
+        PEAK Expedition is a personal passion project created
+        for friends who love a little friendly competition.
+        It's free to use, so feel free to create your own
+        expedition, invite your crew, and see who reaches
+        the summit!
+    </p>
+    <p style="margin-top:10px;opacity:0.8">
+        <em>Happy climbing, and may the best climber win! 🔥</em>
+    </p>
+</section>
+      `;
   }
 
   function sharePanel() {
