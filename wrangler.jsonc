@@ -12,7 +12,7 @@
     {
       "binding": "DB",
       "database_name": "peak-races",
-      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID",
+      "database_id": "c11f4cc4-6eff-4342-9ce1-eee1f4ac0be5",
       "migrations_dir": "migrations"
     }
   ]
