@@ -807,7 +807,7 @@
         <h2>${esc(champ?.name || 'Champion')}</h2>
         <p>${champ ? `${champ.score} points · ${rows.find((r) => r.id === champ.id)?.win || 0} campfire wins · ${rows.find((r) => r.id === champ.id)?.avg || '—'} avg finish` : 'Awaiting the champion.'}</p>
         <div class="actions">
-          <span class="pill">${state.raceName}</span>
+          <span class="pill">${esc(state.raceName)}</span>
           <span class="pill muted">${completed().length} finalized campfires</span>
           <span class="pill muted">${people().length} racers</span>
         </div>
