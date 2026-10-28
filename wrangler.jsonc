@@ -18,5 +18,12 @@
       "migrations_dir": "migrations"
     }
   ],
-  "previews": {}
+  "previews": {
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "peak-races",
+      "database_id": "c11f4cc4-6eff-4342-9ce1-eee1f4ac0be5"
+    }
+  ]
 }
