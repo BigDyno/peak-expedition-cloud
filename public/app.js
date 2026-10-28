@@ -130,9 +130,7 @@
   let mapDate = null;
   let mapFetched = null;
   function rotationKey(date = new Date()) {
-    const d = new Date(date.getTime());
-    if (d.getUTCHours() < 17) d.setUTCDate(d.getUTCDate() - 1);
-    return `${d.getUTCDate()}-${d.getUTCMonth() + 1}-${d.getUTCFullYear()}`;
+    return globalThis.PeakMapSchedule.rotationKey(date);
   }
   function mapDateText(key) {
     const parts = String(key).split('-').map(Number);
@@ -148,13 +146,19 @@
       const res = await fetch(`${PEAKMAP_DATA}?t=${Date.now()}`, {cache:'no-store'});
       if (!res.ok) throw new Error(`Map source HTTP ${res.status}`);
       const json = await res.json();
-      if (!json?.DayLevels || typeof json.DayLevels !== 'object') throw new Error('Unexpected map schedule format');
-      const parsed = Object.fromEntries(Object.entries(json.DayLevels).filter(([k,v])=>/^\d{1,2}-\d{1,2}-\d{4}$/.test(k)&&Array.isArray(v?.Biomes)&&v.Biomes.every(b=>typeof b==='string')).map(([k,v])=>[k,{level:String(v.Level||''),biomes:v.Biomes.slice(0,12).map(b=>b.slice(0,40))}]));
-      if (!Object.keys(parsed).length) throw new Error('No supported map rotations in response');
+      const parsed = globalThis.PeakMapSchedule.parseSchedule(json);
       mapIndex = parsed; mapFetched = new Date();
-      if (!mapDate) mapDate = rotationKey();
-      if (!mapIndex[mapDate] && mapIndex[rotationKey()]) mapDate = rotationKey();
-      if (!mapIndex[mapDate]) { mapDate = Object.keys(mapIndex).sort((a,b)=>mapDateSort(b)-mapDateSort(a))[0]; mapError = 'No schedule for the current rotation. Showing the most recent published date instead.'; }
+      const today = rotationKey();
+      if (!mapDate || !parsed[mapDate]) {
+        const available = Object.keys(parsed).sort((a, b) => mapDateSort(a) - mapDateSort(b));
+        mapDate = parsed[today] ? today :
+          (available.filter(d => mapDateSort(d) <= mapDateSort(today)).pop() || available[0]);
+      }
+      if (!parsed[today]) {
+        mapError = mapDateSort(mapDate) <= mapDateSort(today)
+          ? 'PeakMap has not published the current rotation. Showing the latest available published map instead.'
+          : 'PeakMap has not published the current rotation. Showing the earliest upcoming published map instead.';
+      }
     } catch (err) {
       mapError = `Unable to load PeakMap schedule: ${err.message}. You can still score campfires manually.`;
     } finally {mapLoading = false; if(page === 'map') render();}
