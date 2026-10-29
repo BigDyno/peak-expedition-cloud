@@ -93,3 +93,21 @@
 .setup-resume strong{color:#f4d7a3}
 @media(max-width:760px){.setup-guide-heading{flex-direction:column}.setup-guide-heading .button{align-self:flex-start}.setup-step{padding:13px;gap:10px}.setup-step-icon{height:33px;width:33px;flex-basis:33px;font-size:18px}.setup-step-heading h3{font-size:17px}.setup-step-actions .button{flex:1 1 140px}.setup-resume{align-items:flex-start;flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.setup-progress-track span{transition:none}}
+
+/* Mobile PWA polish: status-bar breathing room and complete footer branding. */
+@media (max-width:760px) {
+  .topbar, .landing .topbar {
+    padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  }
+  .footer .peak-footer-main {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+  }
+  .footer .peak-footer-main span,
+  .footer .peak-footer-main span:last-child {
+    display:block;
+    float:none;
+  }
+}
