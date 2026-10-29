@@ -4,8 +4,8 @@
   'use strict';
 
   const finalByBiome = Object.freeze({
-    swamp: 'The Citadel',
-    volcano: 'The Kiln'
+    swamp: 'Citadel',
+    volcano: 'Kiln'
   });
 
   function fromBiomes(biomes) {
