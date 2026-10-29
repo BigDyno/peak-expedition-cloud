@@ -174,7 +174,7 @@
   const color = (x, i = 0) => x?.color || COLORS[i % COLORS.length];
   const raceComplete = () => state.rounds.length > 0 && state.rounds.every((r) => r.finalized);
   function biomeEmoji(label) {
-    const names = { shore:'🏖️', tropics:'🌴', alpine:'🏔️', swamp:'🐸', mesa:'🏜️', caldera:'🌋', roots:'🌳', kiln:'🔥', citadel:'🏰' };
+    const names = { shore:'🏖️', tropics:'🌴', alpine:'🏔️', swamp:'🐸', mesa:'🏜️', volcano:'🌋', roots:'🍄', kiln:'🔥', citadel:'🏰' };
     const raw = String(label || '').trim().replace(/^[^\p{L}\p{N}]+/u, '').trim();
     const match = Object.keys(names).find((b) => raw.toLowerCase() === b || raw.toLowerCase().startsWith(`${b} campfire`));
     return `${names[match] || '⛰️'} ${raw}`;
