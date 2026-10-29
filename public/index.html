@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#090d14">
   <title>PEAK / Race Control</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="/icons/peak-icon.svg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="expedition.css">
   <link rel="stylesheet" href="cloud.css">
@@ -85,5 +89,12 @@
   <script src="setup-guide.js" defer></script>
   <script src="peakmap-campfires.js" defer></script>
   <script src="app.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => console.warn('Offline support unavailable:', error));
+      });
+    }
+  </script>
 </body>
 </html>
