@@ -61,3 +61,35 @@
 .checkpoint-upcoming-name{margin-top:5px;color:#f2d6a5;font:650 19px/1.25 'Fraunces',serif;overflow-wrap:anywhere}
 .checkpoint-progress>.button{justify-self:start}
 @media(max-width:760px){.trail-activity{padding:8px 9px}.trail-stage-tag{font-size:8px}.checkpoint-progress{gap:12px}}
+
+
+/* Organizer's field journal: optional first-race walkthrough */
+.setup-guide{padding:clamp(18px,2.6vw,30px);margin:0 0 22px;border-color:#cba8719c;background:linear-gradient(145deg,#30473d,#193333);overflow:hidden}
+.setup-guide-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.setup-guide-heading h2{font:650 clamp(27px,3vw,40px)/1.1 'Fraunces',serif;color:#f8dbad;margin:6px 0 9px}
+.setup-guide-heading p{max-width:590px;color:#d5dfcd;line-height:1.55}
+.setup-guide-heading .button{flex:0 0 auto}
+.setup-progress-label{display:flex;justify-content:space-between;gap:12px;margin:23px 0 8px;font-size:12px;font-weight:700;color:#ead7b3}
+.setup-progress-label strong{font-variant-numeric:tabular-nums}
+.setup-progress-track{height:9px;border-radius:999px;overflow:hidden;background:#0f2727;border:1px solid #65807166}
+.setup-progress-track span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#cba771,#f6d593);transition:width .22s ease}
+.setup-steps{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:11px}
+.setup-step{display:flex;gap:15px;align-items:flex-start;border:1px solid #728d7770;background:#19322fe0;border-radius:14px;padding:17px}
+.setup-step.is-next{border-color:#dec08bbd;background:#344c3d}
+.setup-step.is-done{background:#29483b90;border-color:#68856d75}
+.setup-step-icon{width:41px;height:41px;display:grid;place-items:center;flex:0 0 41px;border-radius:12px;background:#405e4c;color:#f1d4a3;font-size:23px}
+.setup-step.is-done .setup-step-icon{background:#3f664c;color:#d8f0c1}
+.setup-step-copy{flex:1;min-width:0}
+.setup-step-heading{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.setup-step-number{font-size:9px;font-weight:800;color:#edc68b;letter-spacing:1.5px}
+.setup-step-heading h3{font:650 19px/1.3 'Fraunces',serif}
+.setup-state{font-size:10px;font-weight:800;letter-spacing:.6px;border:1px solid #758a73;border-radius:99px;padding:3px 9px;color:#dbd4b5}
+.setup-step.is-done .setup-state{color:#cbe8bb;border-color:#81aa7a}
+.setup-step-copy p{color:#c0d2c5;max-width:760px;font-size:13px;line-height:1.55}
+.setup-step-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}
+.setup-step-actions .button{white-space:normal;text-align:center}
+.setup-footnote{color:#a9c6b2;font-size:11px;margin-top:17px;line-height:1.6}
+.setup-resume{border:1px dashed #98a8839a;background:#29423794;border-radius:13px;padding:13px 17px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#d5e3cb;font-size:12px}
+.setup-resume strong{color:#f4d7a3}
+@media(max-width:760px){.setup-guide-heading{flex-direction:column}.setup-guide-heading .button{align-self:flex-start}.setup-step{padding:13px;gap:10px}.setup-step-icon{height:33px;width:33px;flex-basis:33px;font-size:18px}.setup-step-heading h3{font-size:17px}.setup-step-actions .button{flex:1 1 140px}.setup-resume{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.setup-progress-track span{transition:none}}
