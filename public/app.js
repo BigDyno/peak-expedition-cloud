@@ -1301,7 +1301,6 @@
         const route = mapIndex?.[mapDate];
         const checkpoints = globalThis.PeakMapCampfires.fromBiomes(route?.biomes);
         if (!checkpoints.length) return toast('No route loaded to create campfires');
-        if (!confirm(`Create ${checkpoints.length} new draft campfires for ${mapDateText(mapDate)}? Existing campfires and results will be kept.`)) return;
         commit(() => {
           for (const checkpoint of checkpoints) state.rounds.push({
             id:id(), name:biomeEmoji(checkpoint.campfireName), note:`PeakMap ${mapDateText(mapDate)} · ${route.level}${checkpoint.isFinalCampfire ? ' · Final campfire' : ''}`,
