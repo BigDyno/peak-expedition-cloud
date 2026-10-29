@@ -886,7 +886,7 @@
     const selected = mapDate || today;
     const record = mapIndex?.[selected];
     const current = selected === today;
-    const sequence = record?.biomes || [];
+    const sequence = globalThis.PeakMapCampfires.fromBiomes(record?.biomes);
     return pageHead('Expedition map', 'Map rotation and biome sequence from the community PeakMap project.', `<button class="button quiet" data-action="refresh-map">↻ Refresh rotation</button><a class="button primary" href="${PEAKMAP_APP}" target="_blank" rel="noopener noreferrer">↗ Open interactive PeakMap</a>`) + `
       <section class="map-hero"><div class="eyebrow">TRAIL NOTES / COMMUNITY INTELLIGENCE</div><h2>Know the route.<br><em>Race the mountain.</em></h2><p>Today's biome order, straight from the published PeakMap schedule. Your competition scores remain separate.</p><span class="source-tag">Unofficial community source · Refresh at 17:00 UTC</span></section>
       <div class="map-grid">
@@ -895,11 +895,11 @@
           <div class="field map-picker"><label for="mapDate">Select published day</label><select id="mapDate" ${dates.length?'':'disabled'}>${dates.length?dates.map(d=>`<option value="${esc(d)}" ${d===selected?'selected':''}>${esc(mapDateText(d))}${d===today?' · Current':''}</option>`).join(''):'<option>No published rotations loaded</option>'}</select></div>
           ${mapLoading?'<div class="empty">Checking the trail map…</div>':''}
           ${mapError?`<div class="map-notice">${esc(mapError)}</div>`:''}
-          ${record?`<div class="trail-route">${sequence.map((name,i)=>`<div class="trail-step biome-${esc(name.toLowerCase().replace(/[^a-z]/g,''))}"><span class="trail-node">${i+1}</span><div class="trail-step-detail"><span class="eyebrow">STAGE ${String(i+1).padStart(2,'0')}</span><strong>${esc(name)}</strong></div><span class="trail-symbol">${({'Shore':'◉','Tropics':'✿','Roots':'♣','Alpine':'▲','Mesa':'◆','Caldera':'♨','Volcano':'♨','Swamp':'≈','Gloom':'☾'})[name]||'✦'}</span></div>`).join('')}<div class="trail-finish">⚑ &nbsp; THE SUMMIT</div></div>`:'<div class="empty">No biome rotation available for the selected date. The existing race and manual campfires still work.</div>'}
-          ${record&&!spectator?`<div class="map-sync-panel"><div><strong>Create campfires from this route</strong><p>Creates one draft campfire per biome, in order. Existing campfires and scores are never modified.</p></div><button class="button primary" data-action="import-map-rounds">+ Create draft campfires</button></div>`:''}
+          ${record?`<div class="trail-route">${sequence.map((stage,i)=>`<div class="trail-step biome-${esc(stage.biome.toLowerCase().replace(/[^a-z]/g,''))} ${stage.isFinalCampfire ? 'trail-final-campfire' : ''}"><span class="trail-node">${i+1}</span><div class="trail-step-detail"><span class="eyebrow">${stage.isFinalCampfire ? 'FINAL CAMPFIRE' : `STAGE ${String(i+1).padStart(2,'0')}`}</span><strong>${esc(stage.label)}</strong></div><span class="trail-symbol">${({'Shore':'◉','Tropics':'✿','Roots':'♣','Alpine':'▲','Mesa':'◆','Caldera':'♨','Volcano':'♨','Swamp':'≈','Gloom':'☾','The Citadel':'♜','The Kiln':'♨'})[stage.label]||'✦'}</span></div>`).join('')}<div class="trail-finish">⚑ &nbsp; THE SUMMIT</div></div>`:'<div class="empty">No biome rotation available for the selected date. The existing race and manual campfires still work.</div>'}
+          ${record&&!spectator?`<div class="map-sync-panel"><div><strong>Create campfires from this route</strong><p>Creates draft campfires for the biome route and its final Citadel or Kiln checkpoint when applicable. Existing campfires and scores are never modified.</p></div><button class="button primary" data-action="import-map-rounds">+ Create draft campfires</button></div>`:''}
         </section>
         <section class="panel map-side"><div class="panel-head"><div><h3>Field guide</h3><p>Live source and handoff to scoring</p></div></div>
-          <div class="map-detail"><span class="eyebrow">MAP ROTATION</span><strong>${esc(mapDateText(selected))}</strong><small>${esc(record?.level||'Awaiting published map')} · ${sequence.length} recorded biomes</small></div>
+          <div class="map-detail"><span class="eyebrow">MAP ROTATION</span><strong>${esc(mapDateText(selected))}</strong><small>${esc(record?.level||'Awaiting published map')} · ${record?.biomes?.length || 0} recorded biomes · ${sequence.length} checkpoints</small></div>
           <div class="map-detail"><span class="eyebrow">YOUR RACE</span><strong>${state.rounds.length} campfires</strong><small>${completed().length} finalized · ${state.rounds.length-completed().length} drafts</small></div>
           <div class="map-detail"><span class="eyebrow">DATA FRESHNESS</span><strong>${mapFetched ? esc(mapFetched.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})) : 'Not loaded'}</strong><small>Community publication can lag or omit days. Reload to check updates.</small></div>
           <div class="map-advice">✦ <b>Scout's note</b><p>PeakMap identifies the sequence of biomes on a daily map. It does not provide individual campfire names or the race's finishing order. Adjust draft names to match your actual checkpoints.</p></div>
@@ -1299,15 +1299,16 @@
       case 'import-map-rounds': {
         if (spectator) return;
         const route = mapIndex?.[mapDate];
-        if (!route?.biomes?.length) return toast('No route loaded to create campfires');
-        if (!confirm(`Create ${route.biomes.length} new draft campfires for ${mapDateText(mapDate)}? Existing campfires and results will be kept.`)) return;
+        const checkpoints = globalThis.PeakMapCampfires.fromBiomes(route?.biomes);
+        if (!checkpoints.length) return toast('No route loaded to create campfires');
+        if (!confirm(`Create ${checkpoints.length} new draft campfires for ${mapDateText(mapDate)}? Existing campfires and results will be kept.`)) return;
         commit(() => {
-          for (const biome of route.biomes) state.rounds.push({
-            id:id(), name:biomeEmoji(`${biome} Campfire`), note:`PeakMap ${mapDateText(mapDate)} · ${route.level}`,
+          for (const checkpoint of checkpoints) state.rounds.push({
+            id:id(), name:biomeEmoji(checkpoint.campfireName), note:`PeakMap ${mapDateText(mapDate)} · ${route.level}${checkpoint.isFinalCampfire ? ' · Final campfire' : ''}`,
             finalized:false, teamAtFinish:{}, order:people().map(p=>({id:p.id,ghost:false}))
           });
         });
-        page='race';render();toast(`${route.biomes.length} draft campfires created from published biome order`);
+        page='race';render();toast(`${checkpoints.length} draft campfires created from published route`);
         return;
       }
       case 'new-player': setupPlayer(); return;
