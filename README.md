@@ -1,8 +1,4 @@
-# PEAK Expedition Cloud — First Deployable Edition
-
-Turn the original PEAK Expedition Edition website into a free-to-join, multi-race web app. This project contains a Cloudflare Worker API, a Cloudflare D1 SQL database migration, and the existing PEAK frontend with the Expedition theme preserved.
-
-**Status:** Live at [peak.dvdata.ca](https://peak.dvdata.ca/). You can try the hosted website or deploy your own instance using the instructions below.
+# PEAK Expedition Cloud
 
 ## 🏔️ Try PEAK Live!
 
