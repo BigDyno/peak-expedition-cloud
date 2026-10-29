@@ -486,7 +486,7 @@
       dirty = false; conflict = false; cloudReady = true;
       undo = []; redo = []; navigationHistory = [];
       spectator = false; podiumPresentation = false; page = 'overview';
-      setupPrefs({ dismissed: false, routeReviewed: false, linkReady: false });
+      setupPrefs({ dismissed: true, routeReviewed: false, linkReady: false });
       history.replaceState(null, '', `?race=PEAK-${raceCode}#key=${manageKey}`);
       persist(); render(); status('ok', `Cloud connected · v${revision}`);
       showCredentials(data.recoveryKey);
