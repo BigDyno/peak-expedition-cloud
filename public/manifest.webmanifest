@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "PEAK Race Control",
+  "short_name": "PEAK",
+  "description": "Expedition race tracking, campfires, maps and live leaderboards.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#090d14",
+  "theme_color": "#090d14",
+  "icons": [
+    {
+      "src": "/icons/peak-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
