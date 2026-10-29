@@ -431,7 +431,7 @@
         <h3>🏔️ Built for the love of PEAK</h3>
         <p>PEAK Expedition is a personal, fan-made passion project originally created for friends who enjoy a little friendly competition. You're welcome to use it for your own races—create an expedition, invite your crew, and see who reaches the summit!</p>
         <p style="margin-top:10px;opacity:0.85"><em>Happy climbing, and may the best climber win! 🔥</em></p>
-        <p class="subline" style="margin-top:12px">Unofficial fan project. Not affiliated with or endorsed by the creators of PEAK.</p>
+        
       </section>`;
   }
 
