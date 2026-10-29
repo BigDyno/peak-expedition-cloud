@@ -400,10 +400,11 @@
   }
 
   async function copyText(value) {
-    try { await navigator.clipboard.writeText(value); toast('Copied to clipboard'); }
+    try { await navigator.clipboard.writeText(value); toast('Copied to clipboard'); return true; }
     catch {
       openModal('Copy this link', `<div class="field"><label>Select and copy</label><textarea rows="4" readonly>${esc(value)}</textarea></div>`);
       $('#modalBody textarea')?.select();
+      return false;
     }
   }
 
@@ -485,6 +486,7 @@
       dirty = false; conflict = false; cloudReady = true;
       undo = []; redo = []; navigationHistory = [];
       spectator = false; podiumPresentation = false; page = 'overview';
+      setupPrefs({ dismissed: false, routeReviewed: false, linkReady: false });
       history.replaceState(null, '', `?race=PEAK-${raceCode}#key=${manageKey}`);
       persist(); render(); status('ok', `Cloud connected · v${revision}`);
       showCredentials(data.recoveryKey);
@@ -692,6 +694,63 @@
     return `<header class="page-head"><div><div class="eyebrow">PEAK / ${esc(title).toUpperCase()}</div><h1>${esc(title)}</h1><p>${esc(copy)}</p></div><div class="actions">${actions}</div></header>`;
   }
 
+
+  function setupPrefs(patch) {
+    return globalThis.PeakSetupGuide.update(localStorage, raceCode, patch);
+  }
+
+  function setupGuide() {
+    if (spectator || !raceCode) return '';
+    const prefs = globalThis.PeakSetupGuide.read(localStorage, raceCode);
+    const progress = globalThis.PeakSetupGuide.progress(state, prefs);
+    if (prefs.dismissed) {
+      return `<div class="setup-resume" aria-label="Organizer setup guide">
+        <span><strong>New to Race Control?</strong> Follow the five-step expedition setup guide whenever you like.</span>
+        <button class="button tiny quiet" data-action="setup-open">♧ Open setup guide</button>
+      </div>`;
+    }
+    const steps = [
+      { icon:'♧', title:'Assemble your crew',
+        detail:'Add your racers first. Set up teams too if you plan a team expedition.',
+        buttons:'<button class="button primary tiny" data-action="setup-add-racer">+ Add a racer</button><button class="button tiny quiet" data-page="people">Racers & teams</button>' },
+      { icon:'◈', title:'Choose your expedition route',
+        detail:'Check today’s published PeakMap biome rotation, or plan custom campfires for a route of your own. The map may not be published yet.',
+        buttons:'<button class="button primary tiny" data-action="setup-open-map">◈ See today’s map</button><button class="button tiny quiet" data-action="setup-custom-route">Plan a custom route</button>' },
+      { icon:'⚑', title:'Prepare your campfires',
+        detail:'On the map, you can create draft campfires from the published biome order. Or add your own checkpoints. Drafts never score points.',
+        buttons:'<button class="button primary tiny" data-action="setup-add-round">+ Create draft campfire</button><button class="button tiny quiet" data-page="map">Use map rotation</button>' },
+      { icon:'★', title:'Record your first results',
+        detail:'Move racers into finishing order at a campfire, mark any ghosts, then finalize it to award points. You can reopen a result if needed.',
+        buttons:'<button class="button primary tiny" data-action="setup-go-score">⚑ Open campfire scoring</button>' },
+      { icon:'◉', title:'Invite your spectators',
+        detail:'Copy the public spectator link so others can watch standings. Keep your organizer link and recovery key private.',
+        buttons:'<button class="button primary tiny" data-action="copy-spectator">Copy spectator link</button><button class="button tiny quiet" data-action="setup-mark-shared">I shared the link</button>' }
+    ];
+    const firstPending = progress.done.indexOf(false);
+    const items = steps.map((step, i) => `<li class="setup-step ${progress.done[i] ? 'is-done' : i === firstPending ? 'is-next' : ''}">
+      <span class="setup-step-icon" aria-hidden="true">${step.icon}</span>
+      <div class="setup-step-copy">
+        <div class="setup-step-heading"><span class="setup-step-number">STEP ${String(i + 1).padStart(2,'0')}</span><h3>${step.title}</h3>
+          <span class="setup-state">${progress.done[i] ? '✓ Complete' : i === firstPending ? 'NEXT UP' : 'To do'}</span></div>
+        <p>${step.detail}</p><div class="setup-step-actions">${step.buttons}</div>
+      </div>
+    </li>`).join('');
+    return `<section class="setup-guide panel" aria-labelledby="setupGuideTitle">
+      <header class="setup-guide-heading">
+        <div><div class="eyebrow">FIELD JOURNAL / ORGANIZER SETUP</div>
+          <h2 id="setupGuideTitle">${progress.complete ? 'Your expedition is ready! ✦' : 'Prepare your expedition.'}</h2>
+          <p>${progress.complete ? 'Your crew and checkpoints are ready for the climb. Keep this guide handy or head back to race control.' : 'Five simple milestones to help you launch your race. Follow them in any order.'}</p>
+        </div>
+        <button class="button tiny quiet" data-action="setup-hide" aria-label="Dismiss organizer setup guide">✕ Hide guide</button>
+      </header>
+      <div class="setup-progress-label"><span>${progress.complete ? 'All setup milestones completed' : 'Expedition readiness'}</span><strong>${progress.count} of ${progress.total}</strong></div>
+      <div class="setup-progress-track" role="progressbar" aria-label="Expedition setup progress" aria-valuemin="0" aria-valuemax="${progress.total}" aria-valuenow="${progress.count}">
+        <span style="width:${progress.count / progress.total * 100}%"></span></div>
+      <ol class="setup-steps">${items}</ol>
+      <p class="setup-footnote">✓ Crew, campfires and scores come from your race. Map review and link-preparation progress are remembered in this browser only. You can skip and reopen this guide anytime.</p>
+    </section>`;
+  }
+
   function overview() {
     const l = leaders();
     const r = completed();
@@ -724,6 +783,7 @@
       : '';
 
     return `
+      ${spectator ? '' : setupGuide()}
       <section class="hero">
         <div class="hero-content">
           <div class="eyebrow">● ${esc(state.raceName.toUpperCase())} / RACE DAY</div>
@@ -1150,6 +1210,7 @@
     if (!raceCode || !['overview','race','map','people','analytics','podium','history'].includes(next)) return;
     if (page !== next) navigationHistory.push(page);
     page = next;
+    if (page === 'map' && !spectator) setupPrefs({ routeReviewed: true });
     if (page === 'map' && !mapIndex) getPeakMap();
     render();
     window.scrollTo(0, 0);
@@ -1202,9 +1263,21 @@
 
     switch (a) {
       case 'copy-code': copyText(`PEAK-${raceCode}`); return;
-      case 'copy-spectator': copyText(publicLink()); return;
+      case 'copy-spectator': {
+        const copied = await copyText(publicLink());
+        if (copied && !spectator) { setupPrefs({linkReady:true}); if (page === 'overview') render(); }
+        return;
+      }
       case 'copy-organizer': copyText(manageLink()); return;
       case 'copy-recovery': copyText(el.dataset.recovery || ''); return;
+      case 'setup-open': setupPrefs({ dismissed: false }); render(); return;
+      case 'setup-hide': setupPrefs({ dismissed: true }); render(); return;
+      case 'setup-add-racer': navigate('people'); setupPlayer(); return;
+      case 'setup-open-map': navigate('map'); return;
+      case 'setup-custom-route': setupPrefs({ routeReviewed: true }); navigate('race'); return;
+      case 'setup-add-round': newRound(); return;
+      case 'setup-go-score': navigate('race'); return;
+      case 'setup-mark-shared': setupPrefs({ linkReady: true }); render(); return;
       case 'organizer-info': showCredentials(); return;
       case 'rotate-keys': rotateKeys(); return;
       case 'switch-race':
