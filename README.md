@@ -2,7 +2,17 @@
 
 Turn the original PEAK Expedition Edition website into a free-to-join, multi-race web app. This project contains a Cloudflare Worker API, a Cloudflare D1 SQL database migration, and the existing PEAK frontend with the Expedition theme preserved.
 
-**Status:** deployable prototype for testing; not yet deployed to an actual Cloudflare account. Run the staging checks before inviting the public.
+**Status:** Live at [peak.dvdata.ca](https://peak.dvdata.ca/). You can try the hosted website or deploy your own instance using the instructions below.
+
+## 🏔️ Try PEAK Live!
+
+**[🚀 Launch PEAK Expedition](https://peak.dvdata.ca/)**
+
+Jump in without deploying anything: create an expedition, invite friends, track campfire scores, and follow the leaderboard from your browser. No account or download required. On supported devices, you can also install the website as an app.
+
+*Built for the climb. Made for the rivalry.*
+
+> PEAK Expedition is an unofficial fan-made project and is not affiliated with the creators of PEAK.
 
 ## What it supports
 
